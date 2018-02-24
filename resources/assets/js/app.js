@@ -12,7 +12,9 @@ import App from './App.vue';
 import axios from 'axios';
 import router from './router.js'; 
 import {store} from './store/store.js';
+import tinymce from 'vue-tinymce-editor';
 
+Vue.component('tinymce', tinymce);
 Vue.component('pagination', require('laravel-vue-pagination'));
 
 axios.defaults.baseURL = 'http://project-prototype-12.test';

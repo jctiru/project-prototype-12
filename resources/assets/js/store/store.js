@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import router from './../router.js';
 
 Vue.use(Vuex);
 
@@ -32,61 +33,57 @@ export const store = new Vuex.Store({
 			// axios.get('/api/articles?page=' + page)
 			axios.get('/api/articles')
 			.then(response => {
-				console.log(response.data);
-			    console.log(response.status);
-			    console.log(response.statusText);
-			    console.log(response.headers);
-			    console.log(response.config);
 				const data = response.data;
 				commit('setArticles', data);
 			})
 			.catch(error => {
 				if (error.response) {
-			        // The request was made and the server responded with a status code
-			        // that falls out of the range of 2xx
 			        console.log(error.response.data);
-			        console.log(error.response.status);
-			        console.log(error.response.headers);
 			    } else if (error.request) {
-			        // The request was made but no response was received
-			        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-			        // http.ClientRequest in node.js
 			        console.log(error.request);
 			    } else {
-			        // Something happened in setting up the request that triggered an Error
 			        console.log('Error', error.message);
 			    }
-			    console.log(error.config);
 			});
 		},
-		fetchArticle({commit}){
-			axios.get('/api/articles/31')
+		fetchArticle({commit}, articleId){
+			axios.get('/api/articles/' + articleId)
 			.then(response => {
-				console.log(response.data);
-			    console.log(response.status);
-			    console.log(response.statusText);
-			    console.log(response.headers);
-			    console.log(response.config);
 				const data = response.data;
 				commit('setArticle', data);
 			})
 			.catch(error => {
 				if (error.response) {
-			        // The request was made and the server responded with a status code
-			        // that falls out of the range of 2xx
-			        console.log(error.response.data);
-			        console.log(error.response.status);
-			        console.log(error.response.headers);
+			        if(error.response.status == 404){
+			        	router.push('/404');
+			        }
 			    } else if (error.request) {
-			        // The request was made but no response was received
-			        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-			        // http.ClientRequest in node.js
 			        console.log(error.request);
 			    } else {
-			        // Something happened in setting up the request that triggered an Error
 			        console.log('Error', error.message);
 			    }
-			    console.log(error.config);
+			});
+		},
+		updateArticle({commit}, article){
+			const updatedArticle = {
+				id: article.id,
+				title: article.title,
+				body: article.body,
+			};
+			axios.put('/api/articles/' + updatedArticle.id, updatedArticle)
+			.then(response => {
+				console.log(response.data);
+			})
+			.catch(error => {
+				if (error.response) {
+					console.log(error.response.data);
+				    console.log(error.response.status);
+				    console.log(error.response.headers);
+			    } else if (error.request) {
+			        console.log(error.request);
+			    } else {
+			        console.log('Error', error.message);
+			    }
 			});
 		}
 	}

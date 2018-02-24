@@ -58,10 +58,11 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         // $article->update($request->all());
-        $article->title = $request->input('title');
-        $article->body = $request->inpute('body');
-        $article->save();
-        return response()->json($article, 200);
+        // $article->title = $request->input('title');
+        // $article->body = $request->inpute('body');
+        // $article->save();
+        // return response()->json($article, 200);
+        return response()->json(['message' => $request], 200);
         // return response()->json(['article' => $article], 200);
     }
 
