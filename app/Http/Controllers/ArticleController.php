@@ -16,7 +16,8 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::paginate(5);
-        return Article::paginate(5);
+        // return Article::paginate(5);
+        return response()->json($articles);
     }
 
     /**

@@ -31,10 +31,14 @@ export const store = new Vuex.Store({
 				page = 1;
 			}
 			// axios.get('/api/articles?page=' + page)
-			axios.get('/api/articles')
+			axios.get('/api/articles?page=' + page)
 			.then(response => {
 				const data = response.data;
+				console.log(response.data);
 				commit('setArticles', data);
+				// history.pushState(null, '', '/?page='+page);
+				history.replaceState(null, '', '/?page='+page);
+				// router.replace({ path: '/', query: { page: page }});
 			})
 			.catch(error => {
 				if (error.response) {

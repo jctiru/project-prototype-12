@@ -9,7 +9,11 @@
 					:data="article.created_at"
 					></app-article>
 				</div>
-				<!-- <pagination :data="articles" v-on:pagination-change-page="fetchArticles"></pagination> -->
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<pagination :limit="2" :data="articles" v-on:pagination-change-page="fetchArticles"></pagination>
+			</div>
 		</div>
 		<!-- <p>{{articles}}</p> -->
 	</div>
@@ -36,11 +40,18 @@
 		created(){
 			 // this.articles = this.$store.getters.articles;
 			 // this.$store.dispatch('fetchArticles');
-			 this.fetchArticles();
+			 if(this.$route.query.page){
+			 	this.fetchArticles(this.$route.query.page)
+			 } else {
+				this.fetchArticles();
+			 }
 		},
 		methods: {
-			fetchArticles(){
-				this.$store.dispatch('fetchArticles');
+			fetchArticles(page){
+				if (typeof page === 'undefined') {
+					page = 1;
+				}
+				this.$store.dispatch('fetchArticles', page);
 			}
 		},
 		components: {
@@ -48,3 +59,9 @@
 		}
 	}
 </script>
+
+<style scoped>
+	.pagination {
+		justify-content: center;
+	}
+</style>
