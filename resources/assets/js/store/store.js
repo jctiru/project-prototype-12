@@ -26,19 +26,19 @@ export const store = new Vuex.Store({
 		}
 	},
 	actions: {
-		fetchArticles({commit}, page){
+		fetchArticles({commit}, {page, requestingPage}){
 			if (typeof page === 'undefined') {
 				page = 1;
 			}
-			// axios.get('/api/articles?page=' + page)
 			axios.get('/api/articles?page=' + page)
 			.then(response => {
 				const data = response.data;
 				console.log(response.data);
-				commit('setArticles', data);
-				// history.pushState(null, '', '/?page='+page);
-				history.replaceState(null, '', '/?page='+page);
-				// router.replace({ path: '/', query: { page: page }});
+				if(response.data.last_page < page || page <= 0){
+					router.push('/404');
+				} else {
+					commit('setArticles', data);
+				}
 			})
 			.catch(error => {
 				if (error.response) {

@@ -1,6 +1,6 @@
 <template>
 	<div class="container py-4">
-		<h3>Edit Article</h3>
+		<h3>Add Article</h3>
 		<form enctype="multipart/form-data" @submit.prevent="onSubmit">
 			<div class="form-group">
 				<label for="title">Title</label>
@@ -22,25 +22,17 @@
 	export default {
 		data(){
 			return {
-				
-			}
-		},
-		computed: {
-			article() {
-				return this.$store.getters.article;
+				article: {
+					body: '',
+					title: ''
+				}				
 			}
 		},
 		methods: {
-			fetchArticle(){
-				this.$store.dispatch('fetchArticle', this.$route.params.id);
-			},
 			onSubmit(){
 		        console.log(this.article);
-		        this.$store.dispatch('updateArticle', this.article);
+		        // this.$store.dispatch('updateArticle', this.article);
 			}
-		},
-		created(){
-			this.fetchArticle();
 		}
 	}
 </script>

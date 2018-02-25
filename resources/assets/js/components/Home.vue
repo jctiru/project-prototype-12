@@ -12,17 +12,15 @@
 		</div>
 		<div class="row">
 			<div class="col-12">
-				<pagination :limit="2" :data="articles" v-on:pagination-change-page="fetchArticles"></pagination>
+				<pagination :limit="2" :data="articles" v-on:pagination-change-page="fetchNewArticles"></pagination>
 			</div>
 		</div>
-		<!-- <p>{{articles}}</p> -->
 	</div>
 </template>
 
 <script>
 	import axios from 'axios';
 	import Article from './Article.vue';
-	// import { mapGetters } from 'vuex';
 	export default {
 		data(){
 			return {
@@ -30,16 +28,11 @@
 			}
 		},
 		computed: {
-			// ...mapGetters({
-			// 	articles: 'articles' 
-			// })
 			articles() {
 				return this.$store.getters.articles;
 			}
 		},
 		created(){
-			 // this.articles = this.$store.getters.articles;
-			 // this.$store.dispatch('fetchArticles');
 			 if(this.$route.query.page){
 			 	this.fetchArticles(this.$route.query.page)
 			 } else {
@@ -51,7 +44,10 @@
 				if (typeof page === 'undefined') {
 					page = 1;
 				}
-				this.$store.dispatch('fetchArticles', page);
+				this.$store.dispatch('fetchArticles', {page: page});
+			},
+			fetchNewArticles(page) {
+				this.$router.push({ path: '/', query: { page: page }});
 			}
 		},
 		components: {

@@ -3,7 +3,16 @@
 		<div class="card mb-3">
 		<h3 class="card-header">Dashboard</h3>
 		<div class="card-body">
-			<h4 class="card-title">Your Blog Posts</h4>
+			<div class="card-title">
+				<div class="row">
+					<div class="col-md-6">
+						<h4 class="">Your Blog Posts</h4>
+					</div>
+					<div class="col-md-6">
+						<router-link :to="{ name: 'articleAdd' }" class="btn btn-primary">Create Post</router-link>
+					</div>
+				</div>
+			</div>
 			<ul class="list-group list-group-flush">
 				<li class="list-group-item">
 					<div class="row">
@@ -68,7 +77,7 @@
 		},
 		methods: {
 			fetchArticles(){
-				this.$store.dispatch('fetchArticles');
+				this.$store.dispatch('fetchArticles', { page: undefined, requestingPage: 'Dashboard'});
 			}
 		},
 		created(){

@@ -15,9 +15,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::paginate(5);
+        $articles = Article::orderBy('created_at', 'DESC')->paginate(5);
         // return Article::paginate(5);
-        return response()->json($articles);
+        return response()->json($articles, 200);
     }
 
     /**
@@ -46,7 +46,8 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return $article;
+        // return $article;
+        return response()->json($article, 200);
     }
 
     /**
@@ -59,11 +60,11 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         // $article->update($request->all());
-        // $article->title = $request->input('title');
-        // $article->body = $request->inpute('body');
-        // $article->save();
-        // return response()->json($article, 200);
-        return response()->json(['message' => $request], 200);
+        $article->title = $request->input('title');
+        $article->body = $request->input('body');
+        $article->save();
+        return response()->json($article, 200);
+        // return response()->json(['message' => $request], 200);
         // return response()->json(['article' => $article], 200);
     }
 
