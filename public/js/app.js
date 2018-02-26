@@ -121157,16 +121157,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			newArticle: {
 				body: '',
 				title: ''
-			}
+			},
+			selectedFile: null
 		};
 	},
 
 	methods: {
 		onSubmit: function onSubmit() {
-			this.$store.dispatch('createArticle', this.newArticle);
+			var newArticle = new FormData();
+			newArticle.append('cover_image', this.selectedFile, this.selectedFile.name);
+			newArticle.append('body', this.newArticle.body);
+			newArticle.append('title', this.newArticle.title);
+			this.$store.dispatch('createArticle', newArticle);
 		},
 		goBack: function goBack() {
 			this.$store.dispatch('goBack');
+		},
+		onFileSelected: function onFileSelected(event) {
+			// console.log(event);
+			this.selectedFile = event.target.files[0];
 		}
 	}
 });
@@ -121248,7 +121257,13 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _vm._m(1),
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                staticClass: "form-control-file form-control-sm",
+                attrs: { type: "file", name: "cover_image", accept: "image/*" },
+                on: { change: _vm.onFileSelected }
+              })
+            ]),
             _vm._v(" "),
             _c("input", {
               staticClass: "btn btn-primary",
@@ -121268,17 +121283,6 @@ var staticRenderFns = [
     return _c("h4", { staticClass: "card-header" }, [
       _c("i", { staticClass: "fa fa-pencil" }),
       _vm._v(" Write Article")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("input", {
-        staticClass: "form-control-file form-control-sm",
-        attrs: { type: "file", name: "cover_image", accept: "image/*" }
-      })
     ])
   }
 ]

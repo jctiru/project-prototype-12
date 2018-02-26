@@ -81,8 +81,24 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         // $article->update($request->all());
+        // Handle File Upload
+        if($request->hasFile('cover_image')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('cover_image')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+        }
         $article->title = $request->input('title');
         $article->body = $request->input('body');
+        if($request->hasFile('cover_image')){
+            $article->cover_image = $fileNameToStore;
+        }
         $article->save();
         return response()->json($article, 200);
         // return response()->json(['message' => $request], 200);
@@ -97,6 +113,10 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+        if($article->cover_image != 'noimage.jpg'){
+            // Delete Image
+            Storage::delete('public/cover_images/'.$article->cover_image);
+        }
         $article->delete();
         return response()->json(null, 204);
         // return response()->json(['message' => 'Article deleted'], 200);
