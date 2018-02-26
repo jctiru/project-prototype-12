@@ -31,3 +31,8 @@ Route::put('articles/{article}', 'ArticleController@update');
 
 // Update article
 Route::delete('articles/{article}', 'ArticleController@destroy');
+
+// Get images
+Route::get('images/cover_images/{image}', function($image){
+	return response()->file(public_path('storage/cover_images/' . $image));
+});

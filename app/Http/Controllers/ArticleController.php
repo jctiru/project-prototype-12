@@ -16,6 +16,9 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::orderBy('created_at', 'DESC')->paginate(5);
+        foreach ($articles as $article) {
+            $article->cover_image = config('app.url') . '/api/images/cover_images/' . $article->cover_image ;
+        }
         // return Article::paginate(5);
         return response()->json($articles, 200);
     }
@@ -29,9 +32,25 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         // $article = Article::create($request->all());
+        // Handle File Upload
+        if($request->hasFile('cover_image')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('cover_image')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.jpg';
+        }
         $article = new Article();
         $article->title = $request->input('title');
         $article->body = $request->input('body');
+        $article->cover_image = $fileNameToStore;
         $article->save();
         return response()->json($article, 201);
         // return response()->json("Received", 201);
@@ -48,6 +67,7 @@ class ArticleController extends Controller
     public function show(Article $article)
     {
         // return $article;
+        $article->cover_image = asset('storage/app/public/cover_images/' . $article->cover_image);
         return response()->json($article, 200);
     }
 

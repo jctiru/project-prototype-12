@@ -24909,7 +24909,19 @@ var routes = [{ path: '/', redirect: { path: '/home' } }, { path: '/home', compo
   // }
 }];
 
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({ mode: 'history', routes: routes }));
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
+  mode: 'history',
+  routes: routes,
+  scrollBehavior: function scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    if (to.hash) {
+      return { selector: to.hash };
+    }
+    return { x: 0, y: 0 };
+  }
+}));
 
 /***/ }),
 /* 17 */
@@ -51691,6 +51703,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -51793,11 +51834,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['title', 'body', 'date']
+	props: ['title', 'body', 'date', 'cover_image']
 });
 
 /***/ }),
@@ -51812,22 +51851,7 @@ var render = function() {
     _c("h4", { staticClass: "card-header" }, [_vm._v(_vm._s(_vm.title))]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
-      _c("img", {
-        staticStyle: { height: "200px", width: "100%", display: "block" },
-        attrs: {
-          src:
-            "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22318%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20318%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_158bd1d28ef%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A16pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_158bd1d28ef%22%3E%3Crect%20width%3D%22318%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22129.359375%22%20y%3D%2297.35%22%3EImage%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
-          alt: "Card image"
-        }
-      }),
-      _vm._v(" "),
-      _c("h5", { staticClass: "card-title" }, [
-        _vm._v("Special title treatment")
-      ]),
-      _vm._v(" "),
-      _c("h6", { staticClass: "card-subtitle text-muted" }, [
-        _vm._v("Support card subtitle")
-      ]),
+      _c("img", { staticClass: "w-100", attrs: { src: _vm.cover_image } }),
       _vm._v(" "),
       _c("p", {
         staticClass: "card-text",
@@ -52324,6 +52348,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -52367,77 +52395,90 @@ var render = function() {
       [_c("i", { staticClass: "fa fa-backward" }), _vm._v(" Go Back")]
     ),
     _vm._v(" "),
-    _c("h3", [_vm._v("Edit Article")]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        attrs: { enctype: "multipart/form-data" },
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            _vm.onSubmit($event)
-          }
-        }
-      },
-      [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.article.title,
-                expression: "article.title"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { placeholder: "Title", type: "text" },
-            domProps: { value: _vm.article.title },
+    _c("div", { staticClass: "card mb-3" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c(
+          "form",
+          {
+            attrs: { enctype: "multipart/form-data" },
             on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.article, "title", $event.target.value)
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.onSubmit($event)
               }
             }
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "form-group" },
+          },
           [
-            _c("label", { attrs: { for: "body" } }, [_vm._v("Body")]),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.article.title,
+                    expression: "article.title"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { placeholder: "Title", type: "text" },
+                domProps: { value: _vm.article.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.article, "title", $event.target.value)
+                  }
+                }
+              })
+            ]),
             _vm._v(" "),
-            _c("tinymce", {
-              attrs: { id: "body" },
-              model: {
-                value: _vm.article.body,
-                callback: function($$v) {
-                  _vm.$set(_vm.article, "body", $$v)
-                },
-                expression: "article.body"
-              }
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", { attrs: { for: "body" } }, [_vm._v("Body")]),
+                _vm._v(" "),
+                _c("tinymce", {
+                  attrs: { id: "body" },
+                  model: {
+                    value: _vm.article.body,
+                    callback: function($$v) {
+                      _vm.$set(_vm.article, "body", $$v)
+                    },
+                    expression: "article.body"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("input", {
+              staticClass: "btn btn-primary",
+              attrs: { type: "submit", value: "Submit" }
             })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "btn btn-primary",
-          attrs: { type: "submit", value: "Submit" }
-        })
-      ]
-    )
+          ]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", { staticClass: "card-header" }, [
+      _c("i", { staticClass: "fa fa-pencil-square-o" }),
+      _vm._v(" Edit Article")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -121105,6 +121146,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -121141,77 +121186,90 @@ var render = function() {
       [_c("i", { staticClass: "fa fa-backward" }), _vm._v(" Go Back")]
     ),
     _vm._v(" "),
-    _c("h3", [_vm._v("Add Article")]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        attrs: { enctype: "multipart/form-data" },
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            _vm.onSubmit($event)
-          }
-        }
-      },
-      [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.newArticle.title,
-                expression: "newArticle.title"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { placeholder: "Title", type: "text" },
-            domProps: { value: _vm.newArticle.title },
+    _c("div", { staticClass: "card mb-3" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c(
+          "form",
+          {
+            attrs: { enctype: "multipart/form-data" },
             on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.newArticle, "title", $event.target.value)
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.onSubmit($event)
               }
             }
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "form-group" },
+          },
           [
-            _c("label", { attrs: { for: "body" } }, [_vm._v("Body")]),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newArticle.title,
+                    expression: "newArticle.title"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { placeholder: "Title", type: "text" },
+                domProps: { value: _vm.newArticle.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.newArticle, "title", $event.target.value)
+                  }
+                }
+              })
+            ]),
             _vm._v(" "),
-            _c("tinymce", {
-              attrs: { id: "body" },
-              model: {
-                value: _vm.newArticle.body,
-                callback: function($$v) {
-                  _vm.$set(_vm.newArticle, "body", $$v)
-                },
-                expression: "newArticle.body"
-              }
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", { attrs: { for: "body" } }, [_vm._v("Body")]),
+                _vm._v(" "),
+                _c("tinymce", {
+                  attrs: { id: "body" },
+                  model: {
+                    value: _vm.newArticle.body,
+                    callback: function($$v) {
+                      _vm.$set(_vm.newArticle, "body", $$v)
+                    },
+                    expression: "newArticle.body"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("input", {
+              staticClass: "btn btn-primary",
+              attrs: { type: "submit", value: "Submit" }
             })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "btn btn-primary",
-          attrs: { type: "submit", value: "Submit" }
-        })
-      ]
-    )
+          ]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", { staticClass: "card-header" }, [
+      _c("i", { staticClass: "fa fa-pencil" }),
+      _vm._v(" Write Article")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -121242,33 +121300,36 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("p", [_vm._v("This is the Home")]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "row" },
-      _vm._l(_vm.articles.data, function(article) {
-        return _c(
-          "div",
-          { key: article.id, staticClass: "col-md-4 py-3" },
-          [
-            _c("app-article", {
-              attrs: {
-                title: article.title,
-                body: article.body,
-                data: article.created_at
-              }
-            })
-          ],
-          1
-        )
-      })
-    ),
+    _c("div", { staticClass: "row py-4" }, [
+      _c(
+        "div",
+        { staticClass: "offset-md-1 col-md-6" },
+        _vm._l(_vm.articles.data, function(article) {
+          return _c(
+            "div",
+            { key: article.id, staticClass: "col-12 py-2" },
+            [
+              _c("app-article", {
+                attrs: {
+                  title: article.title,
+                  body: article.body,
+                  date: article.created_at,
+                  cover_image: article.cover_image
+                }
+              })
+            ],
+            1
+          )
+        })
+      ),
+      _vm._v(" "),
+      _vm._m(0)
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c(
         "div",
-        { staticClass: "col-12" },
+        { staticClass: "offset-md-1 col-md-6" },
         [
           _c("pagination", {
             attrs: { limit: 2, data: _vm.articles },
@@ -121280,7 +121341,39 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-3" }, [
+      _vm._v("\n\t\t\tSidebar\n\t\t\t"),
+      _c("p", [
+        _vm._v(
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n\t\t\ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n\t\t\tquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n\t\t\tconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n\t\t\tcillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n\t\t\tproident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n\t\t\ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n\t\t\tquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n\t\t\tconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n\t\t\tcillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n\t\t\tproident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n\t\t\ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n\t\t\tquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n\t\t\tconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n\t\t\tcillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n\t\t\tproident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n\t\t\ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n\t\t\tquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n\t\t\tconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n\t\t\tcillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n\t\t\tproident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        )
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
