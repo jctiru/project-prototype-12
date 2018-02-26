@@ -15,7 +15,8 @@ import Page404 from './components/Page404.vue';
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', component: HomePage },
+  { path: '/', redirect: { path: '/home'} },
+  { path: '/home', component: HomePage },
   { path: '/about', component: AboutPage },
   { path: '/dashboard', component: DashboardPage},
   { path: '/dashboard/edit/:id', component: ArticleEditPage, name: 'articleEdit' },

@@ -77,6 +77,7 @@ export const store = new Vuex.Store({
 			axios.put('/api/articles/' + updatedArticle.id, updatedArticle)
 			.then(response => {
 				console.log(response.data);
+				this.goBack();
 			})
 			.catch(error => {
 				if (error.response) {
@@ -89,6 +90,45 @@ export const store = new Vuex.Store({
 			        console.log('Error', error.message);
 			    }
 			});
+		},
+		createArticle({commit}, newArticle){
+			axios.post('/api/articles', newArticle)
+			.then(response => {
+				console.log(response.data);
+				router.push('/dashboard');
+			})
+			.catch(error => {
+				if (error.response) {
+					console.log(error.response.data);
+				    console.log(error.response.status);
+				    console.log(error.response.headers);
+			    } else if (error.request) {
+			        console.log(error.request);
+			    } else {
+			        console.log('Error', error.message);
+			    }
+			});
+		},
+		deleteArticle({commit}, {id}){
+			// console.log(id);
+			axios.delete('/api/articles/' + id)
+			.then(response => {
+				console.log(response.data);
+			})
+			.catch(error => {
+				if (error.response) {
+					console.log(error.response.data);
+				    console.log(error.response.status);
+				    console.log(error.response.headers);
+			    } else if (error.request) {
+			        console.log(error.request);
+			    } else {
+			        console.log('Error', error.message);
+			    }
+			});
+		},
+		goBack({commit}){
+			router.go(-1);
 		}
 	}
 });

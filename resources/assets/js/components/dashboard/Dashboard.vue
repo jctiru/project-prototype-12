@@ -1,5 +1,5 @@
 <template>
-	<div class="container py-3">
+	<div class="container py-3 mt-2">
 		<div class="card mb-3">
 		<h3 class="card-header">Dashboard</h3>
 		<div class="card-body">
@@ -9,7 +9,7 @@
 						<h4 class="">Your Blog Posts</h4>
 					</div>
 					<div class="col-md-6">
-						<router-link :to="{ name: 'articleAdd' }" class="btn btn-primary">Create Post</router-link>
+						<router-link :to="{ name: 'articleAdd' }" class="btn btn-primary"><i class="fa fa-pencil"></i> Create Post</router-link>
 					</div>
 				</div>
 			</div>
@@ -42,13 +42,14 @@
 							{{article.created_at}}
 						</div>
 						<div class="col-md-1">
-							<router-link :to="{ name: 'articleEdit', params: { id: article.id}}" class="btn btn-info">Edit</router-link>
+							<router-link :to="{ name: 'articleEdit', params: { id: article.id}}" class="btn btn-info"><i class="fa fa-pencil-square-o"></i> Edit</router-link>
 						</div>
 						<div class="col-md-1">
-							<button class="btn btn-danger">Delete</button>
+							<button class="btn btn-danger" @click="deleteArticle(article.id)"><i class="fa fa-trash"></i> Delete</button>
 						</div>
 					</div>
 				</li>
+				<pagination class="pt-4" :limit="2" :data="articles" v-on:pagination-change-page="fetchNewArticles"></pagination>
 		    </ul>
 			<div class="row">
 				<div class="col-md-2">
@@ -63,7 +64,6 @@
 </template>
 
 <script>
-	import axios from 'axios';
 	export default {
 		data(){
 			return{
@@ -75,13 +75,26 @@
 				return this.$store.getters.articles;
 			}
 		},
-		methods: {
-			fetchArticles(){
-				this.$store.dispatch('fetchArticles', { page: undefined, requestingPage: 'Dashboard'});
+		created(){
+			if(this.$route.query.page){
+			 	this.fetchArticles(this.$route.query.page)
+			} else {
+				this.fetchArticles();
 			}
 		},
-		created(){
-			this.fetchArticles();
-		}
+		methods: {
+			fetchArticles(page){
+				if (typeof page === 'undefined') {
+					page = 1;
+				}
+				this.$store.dispatch('fetchArticles', {page: page});
+			},
+			deleteArticle(id){
+				this.$store.dispatch('deleteArticle', {id: id})
+			},
+			fetchNewArticles(page) {
+				this.$router.push({ path: '/dashboard', query: { page: page }});
+			}
+		}		
 	}
 </script>

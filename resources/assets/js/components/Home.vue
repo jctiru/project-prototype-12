@@ -19,7 +19,6 @@
 </template>
 
 <script>
-	import axios from 'axios';
 	import Article from './Article.vue';
 	export default {
 		data(){
@@ -55,9 +54,3 @@
 		}
 	}
 </script>
-
-<style scoped>
-	.pagination {
-		justify-content: center;
-	}
-</style>

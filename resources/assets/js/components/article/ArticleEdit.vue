@@ -1,5 +1,6 @@
 <template>
 	<div class="container py-4">
+		<button class="btn btn-primary my-3" @click="goBack"><i class="fa fa-backward"></i> Go Back</button>
 		<h3>Edit Article</h3>
 		<form enctype="multipart/form-data" @submit.prevent="onSubmit">
 			<div class="form-group">
@@ -37,6 +38,9 @@
 			onSubmit(){
 		        console.log(this.article);
 		        this.$store.dispatch('updateArticle', this.article);
+			},
+			goBack(){
+				this.$store.dispatch('goBack');
 			}
 		},
 		created(){

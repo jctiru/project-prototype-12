@@ -34,6 +34,7 @@ class ArticleController extends Controller
         $article->body = $request->input('body');
         $article->save();
         return response()->json($article, 201);
+        // return response()->json("Received", 201);
         // return response()->json(['article' => $article], 201);
 
     }

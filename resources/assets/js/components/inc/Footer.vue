@@ -22,7 +22,7 @@
     </div>
     <div>
         <div class="container-fluid text-center pb-3">
-            © 2018 Copyright: <a class="text-white" href="#"> Mind the ____ </a>
+            © 2018 Copyright: <a class="text-white" href="#"> Mind the _____ </a>
         </div>
     </div>
 </footer>

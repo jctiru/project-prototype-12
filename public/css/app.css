@@ -10167,3 +10167,9 @@ body {
   /* Set the fixed height of the footer here */
 }
 
+.pagination {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
