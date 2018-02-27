@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+window.moment = require('moment');
 
 window.Vue = require('vue');
 import App from './App.vue';
@@ -13,11 +14,16 @@ import axios from 'axios';
 import router from './router.js'; 
 import {store} from './store/store.js';
 import tinymce from 'vue-tinymce-editor';
+import truncate from 'html-truncate';
 
 Vue.component('tinymce', tinymce);
 Vue.component('pagination', require('laravel-vue-pagination'));
 
 axios.defaults.baseURL = 'http://project-prototype-12.test';
+
+Vue.filter('date', date => moment(date).format('MMMM Do, YYYY'));
+Vue.filter('longDate', date => moment(date).format('MMM Do YYYY, h:mm a'));
+Vue.filter('truncate', text => truncate(text, 700, {ellipsis: ' . . .'}));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

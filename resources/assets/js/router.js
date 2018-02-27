@@ -6,6 +6,7 @@ import store from './store/store.js';
 import HomePage from './components/Home.vue';
 import AboutPage from './components/About.vue';
 import DashboardPage from './components/dashboard/dashboard.vue';
+import ArticleShowPage from './components/article/ArticleShow.vue';
 import ArticleEditPage from './components/article/ArticleEdit.vue';
 import ArticleAddPage from './components/article/ArticleAdd.vue';
 import Page404 from './components/Page404.vue';
@@ -17,6 +18,7 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/', redirect: { path: '/home'} },
   { path: '/home', component: HomePage },
+  { path: '/article/:id', component: ArticleShowPage, name: 'articleShow' },
   { path: '/about', component: AboutPage },
   { path: '/dashboard', component: DashboardPage},
   { path: '/dashboard/edit/:id', component: ArticleEditPage, name: 'articleEdit' },

@@ -4,10 +4,7 @@
 			<div class="offset-md-1 col-md-6">
 				<div v-for="article in articles.data" :key="article.id" class="col-12 py-2">
 					<app-article 
-					:title="article.title"
-					:body="article.body"
-					:date="article.created_at"
-					:cover_image="article.cover_image"
+					:article="article"
 					></app-article>
 				</div>
 			</div>
@@ -48,7 +45,7 @@
 </template>
 
 <script>
-	import Article from './Article.vue';
+	import ArticleHome from './article/ArticleHome.vue';
 	export default {
 		data(){
 			return {
@@ -79,7 +76,7 @@
 			}
 		},
 		components: {
-			appArticle: Article,
+			appArticle: ArticleHome,
 		}
 	}
 </script>

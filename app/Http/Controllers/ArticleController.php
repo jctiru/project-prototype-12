@@ -17,7 +17,7 @@ class ArticleController extends Controller
     {
         $articles = Article::orderBy('created_at', 'DESC')->paginate(5);
         foreach ($articles as $article) {
-            $article->cover_image = config('app.url') . '/api/images/cover_images/' . $article->cover_image ;
+            $article->cover_image = config('app.url') . '/api/images/cover_images/' . $article->cover_image;
         }
         // return Article::paginate(5);
         return response()->json($articles, 200);
@@ -67,7 +67,7 @@ class ArticleController extends Controller
     public function show(Article $article)
     {
         // return $article;
-        $article->cover_image = asset('storage/app/public/cover_images/' . $article->cover_image);
+        $article->cover_image = config('app.url') . '/api/images/cover_images/' . $article->cover_image;
         return response()->json($article, 200);
     }
 

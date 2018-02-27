@@ -36,10 +36,10 @@
 							{{article.title}}	
 						</div>
 						<div class="col-md-2">
-							{{article.created_at}}
+							{{article.created_at | longDate}}
 						</div>
 						<div class="col-md-2">
-							{{article.created_at}}
+							{{article.updated_at | longDate}}
 						</div>
 						<div class="col-md-1">
 							<router-link :to="{ name: 'articleEdit', params: { id: article.id}}" class="btn btn-info"><i class="fa fa-pencil-square-o"></i> Edit</router-link>

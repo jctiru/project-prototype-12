@@ -54,6 +54,8 @@ export const store = new Vuex.Store({
 			axios.get('/api/articles/' + articleId)
 			.then(response => {
 				const data = response.data;
+				// console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
+				// console.log(data);
 				commit('setArticle', data);
 			})
 			.catch(error => {
