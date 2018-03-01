@@ -10,6 +10,11 @@
 			</div>
 			<div class="col-md-3">
 				Sidebar
+				<div>
+					<v-calendar
+				    :attributes='attrs'>
+				  	</v-calendar>
+				</div>
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -49,7 +54,21 @@
 	export default {
 		data(){
 			return {
-				
+				attrs: [
+			        {
+			        	key: 'today',
+			        	highlight: {
+			            	backgroundColor: '#ff8080',
+			        	},
+			        	contentStyle: {
+            				color: '#fafafa',
+			          	},
+			          	popover: {
+            				label: 'Today',
+			          	},
+			        	dates: new Date()
+			        }
+		        ],
 			}
 		},
 		computed: {
@@ -77,6 +96,7 @@
 		},
 		components: {
 			appArticle: ArticleHome,
+			
 		}
 	}
 </script>
