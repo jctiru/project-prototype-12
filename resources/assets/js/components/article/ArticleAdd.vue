@@ -1,6 +1,11 @@
 <template>
 	<div class="container py-4">
 		<button class="btn btn-primary my-2" @click="goBack"><i class="fa fa-backward"></i> Go Back</button>
+		<div v-if="errors" class="row">
+			<div class="col">
+				<app-errors-component :errors="errors"></app-errors-component>
+			</div>
+		</div>
 		<div class="card mb-3">
 			<h4 class="card-header"><i class="fa fa-pencil"></i> Write Article</h4>
 			<div class="card-body">
@@ -24,6 +29,7 @@
 </template>
 
 <script>
+	import ErrorsComponent from './../inc/Errors.vue';
 	export default {
 		data(){
 			return {
@@ -32,6 +38,11 @@
 					title: '',
 				},
 				selectedFile: null				
+			}
+		},
+		computed: {
+			errors(){
+				return this.$store.getters.errors;
 			}
 		},
 		methods: {
@@ -53,6 +64,9 @@
 			onFileSelected(event){
 				this.selectedFile = event.target.files[0];
 			}
+		},
+		components: {
+			appErrorsComponent: ErrorsComponent
 		}
 	}
 </script>

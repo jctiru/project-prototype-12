@@ -1,6 +1,11 @@
 <template>
 	<div class="container py-4">
 		<button class="btn btn-primary my-3" @click="goBack"><i class="fa fa-backward"></i> Go Back</button>
+		<div v-if="errors" class="row">
+			<div class="col">
+				<app-errors-component :errors="errors"></app-errors-component>
+			</div>
+		</div>
 		<div class="card mb-3">
 			<h4 class="card-header"><i class="fa fa-pencil-square-o"></i> Edit Article</h4>
 			<div class="card-body">
@@ -24,6 +29,7 @@
 </template>
 
 <script>
+	import ErrorsComponent from './../inc/Errors.vue';
 	export default {
 		data(){
 			return {
@@ -33,9 +39,11 @@
 		computed: {
 			article() {
 				return this.$store.getters.article;
+			},
+			errors(){
+				return this.$store.getters.errors;
 			}
 		},
-
 		methods: {
 			fetchArticle(){
 				this.$store.dispatch('fetchArticle', this.$route.params.id);
@@ -61,6 +69,9 @@
 		},
 		created(){
 			this.fetchArticle();
+		},
+		components: {
+			appErrorsComponent: ErrorsComponent
 		}
 	}
 </script>

@@ -166,6 +166,7 @@ export const store = new Vuex.Store({
 			})
 			.catch(error => {
 				if (error.response) {
+					this.commit('setErrors', error.response.data.error);
 					console.log(error.response.data);
 				    console.log(error.response.status);
 				    console.log(error.response.headers);
@@ -188,6 +189,7 @@ export const store = new Vuex.Store({
 			})
 			.catch(error => {
 				if (error.response) {
+					this.commit('setErrors', error.response.data.error);
 					console.log(error.response.data);
 				    console.log(error.response.status);
 				    console.log(error.response.headers);

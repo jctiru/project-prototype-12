@@ -7,6 +7,7 @@ use App\Http\Resources\Article as ArticleResource;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Storage;
+use Validator;
 
 class ArticleController extends Controller
 {
@@ -33,6 +34,13 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+        if (!$validator->passes()) {
+            return response()->json(['error' => $validator->errors()->all()], 400);
+        }
         // $article = Article::create($request->all());
         // Handle File Upload
         if($request->hasFile('cover_image')){
@@ -83,6 +91,13 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+        if (!$validator->passes()) {
+            return response()->json(['error' => $validator->errors()->all()], 400);
+        }
         // $article->update($request->all());
         // Handle File Upload
         if($request->hasFile('cover_image')){
