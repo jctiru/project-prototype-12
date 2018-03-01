@@ -1,5 +1,10 @@
 <template>
 	<div class="container py-3 mt-2">
+		<div v-if="alert" class="row">
+			<div class="col">
+				<app-alert-component :alert="alert"></app-alert-component>
+			</div>
+		</div>
 		<div class="card mb-3">
 		<h3 class="card-header">Dashboard</h3>
 		<div class="card-body">
@@ -65,6 +70,7 @@
 </template>
 
 <script>
+	import AlertComponent from './../inc/Alert.vue';
 	export default {
 		data(){
 			return{
@@ -74,6 +80,9 @@
 		computed: {
 			articles() {
 				return this.$store.getters.articles;
+			},
+			alert(){
+				return this.$store.getters.alert;
 			}
 		},
 		created(){
@@ -99,6 +108,13 @@
 			logOut(){
 				this.$store.dispatch('logOut');
 			}
-		}		
+		},
+		components: {
+			appAlertComponent: AlertComponent
+		},
+		beforeRouteLeave (to, from, next) {
+	    	this.$store.commit('setAlert', null);
+	    	next();
+	    }		
 	}
 </script>

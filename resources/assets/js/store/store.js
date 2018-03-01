@@ -9,6 +9,7 @@ export const store = new Vuex.Store({
 		articles: {},
 		article: {},
 		errors: null,
+		alert: null,
 		tokenPayload: null,
 		token: null,
 		appUrl: 'http://project-prototype-12.test'
@@ -22,6 +23,9 @@ export const store = new Vuex.Store({
     	},
     	errors(state){
     		return state.errors;
+    	},
+    	alert(state){
+    		return state.alert;
     	},
     	tokenPayload(state){
     		return state.tokenPayload;
@@ -43,6 +47,9 @@ export const store = new Vuex.Store({
 		setErrors(state, errors){
 			state.errors = errors;
 		},
+		setAlert(state, alert){
+			state.alert = alert;
+		},
 		setTokenPayload(state, token){
 			const base64Url = token.split('.')[1];
 			const base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -62,6 +69,7 @@ export const store = new Vuex.Store({
 				commit('setToken', response.data.token);
 				commit('setTokenPayload', response.data.token);
 				commit('setErrors', null);
+				commit('setAlert', 'Log-in Successful');
 				localStorage.setItem('token', response.data.token);
 				router.push('/dashboard');
 			})
@@ -162,6 +170,7 @@ export const store = new Vuex.Store({
 			axios.post('/api/articles/' + articleId + "?token=" + token, updatedArticle)
 			.then(response => {
 				console.log(response.data);
+				commit('setAlert', 'Article updated');
 				this.dispatch('goBack');
 			})
 			.catch(error => {
@@ -185,6 +194,7 @@ export const store = new Vuex.Store({
 			axios.post('/api/articles?token='+token, newArticle)
 			.then(response => {
 				console.log(response.data);
+				commit('setAlert', 'Article created');
 				router.push('/dashboard');
 			})
 			.catch(error => {
@@ -205,6 +215,7 @@ export const store = new Vuex.Store({
 			axios.delete('/api/articles/' + id + '?token=' + token)
 			.then(response => {
 				console.log(response.data);
+				commit('setAlert', 'Article deleted');
 				if(this.state.articles.from == this.state.articles.to){
 					const page = this.state.articles.current_page - 1;
 					router.push({ path: '/dashboard', query: { page: page }});

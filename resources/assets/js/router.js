@@ -19,11 +19,11 @@ const routes = [
   { path: '/home', component: HomePage },
   { path: '/signin', 
     component: SignInPage,
-     beforeEnter (to, from, next){
+    beforeEnter (to, from, next){
       if(localStorage.getItem('token')){
         next('/dashboard');
       } else {
-        next('/home');
+        next();
       }
     }
   },
@@ -38,7 +38,7 @@ const routes = [
       } else {
         next('/signin');
       }
-    } 
+    },
   },
   { path: '/dashboard/edit/:id', 
     component: ArticleEditPage, 
