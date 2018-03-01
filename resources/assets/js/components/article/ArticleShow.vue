@@ -21,7 +21,7 @@
 			<div class="offset-md-1 col-md-6">
 				<vue-disqus 
 				shortname="project-prototype-12" 
-				:identifier="article.id"
+				:identifier="String(article.id)"
 				:title="article.title" 
 				:url="url">
 				</vue-disqus>

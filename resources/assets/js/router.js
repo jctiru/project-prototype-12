@@ -17,7 +17,17 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/', redirect: { path: '/home'} },
   { path: '/home', component: HomePage },
-  { path: '/signin', component: SignInPage },
+  { path: '/signin', 
+    component: SignInPage,
+     beforeEnter (to, from, next){
+      if(localStorage.getItem('token')){
+        next('/dashboard');
+      } else {
+        next('/home');
+      }
+    }
+  },
+  { path: '/login',  redirect: { path: '/signin'} },
   { path: '/article/:id', component: ArticleShowPage, name: 'articleShow' },
   { path: '/about', component: AboutPage },
   { path: '/dashboard', 

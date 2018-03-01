@@ -30,6 +30,11 @@ Vue.filter('date', date => moment(date).format('MMMM Do, YYYY'));
 Vue.filter('longDate', date => moment(date).format('MMM Do YYYY, h:mm a'));
 Vue.filter('truncate', text => truncate(text, 700, {ellipsis: ' . . .'}));
 
+router.beforeEach((to, from, next) => {
+	store.state.errors = null;
+	next();
+});
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
