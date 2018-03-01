@@ -15,12 +15,14 @@ import router from './router.js';
 import {store} from './store/store.js';
 import tinymce from 'vue-tinymce-editor';
 import truncate from 'html-truncate';
+import VueDisqus from 'vue-disqus/VueDisqus.vue';
 import VCalendar from 'v-calendar';
 import 'v-calendar/lib/v-calendar.min.css';
 
+Vue.use(VCalendar);
 Vue.component('tinymce', tinymce);
 Vue.component('pagination', require('laravel-vue-pagination'));
-Vue.use(VCalendar);
+Vue.component('vue-disqus', VueDisqus);
 
 axios.defaults.baseURL = 'http://project-prototype-12.test';
 

@@ -23,7 +23,7 @@ const routes = [
   { path: '/dashboard', 
     component: DashboardPage,
     beforeEnter (to, from, next){
-      if(store.state.token){
+      if(localStorage.getItem('token')){
         next();
       } else {
         next('/signin');
@@ -34,7 +34,7 @@ const routes = [
     component: ArticleEditPage, 
     name: 'articleEdit',
     beforeEnter (to, from, next){
-      if(store.state.token){
+      if(localStorage.getItem('token')){
         next();
       } else {
         next('/signin');
@@ -45,7 +45,7 @@ const routes = [
     component: ArticleAddPage, 
     name: 'articleAdd',
     beforeEnter (to, from, next){
-      if(store.state.token){
+      if(localStorage.getItem('token')){
         next();
       } else {
         next('/signin');

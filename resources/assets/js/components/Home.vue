@@ -8,41 +8,12 @@
 					></app-article>
 				</div>
 			</div>
-			<div class="col-md-3">
-				Sidebar
-				<div>
-					<v-calendar
-				    :attributes='attrs'>
-				  	</v-calendar>
-				</div>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<div class="col-md-3 offset-md-1">
+				<app-sidebar></app-sidebar>	
 			</div>
 		</div>
 		<div class="row">
-			<div class="offset-md-1 col-md-6">
+			<div class="offset-md-1 col-md-6 mb-5">
 				<pagination :limit="2" :data="articles" v-on:pagination-change-page="fetchNewArticles"></pagination>
 			</div>
 		</div>
@@ -51,6 +22,7 @@
 
 <script>
 	import ArticleHome from './article/ArticleHome.vue';
+	import Sidebar from './inc/Sidebar.vue';
 	export default {
 		data(){
 			return {
@@ -96,7 +68,7 @@
 		},
 		components: {
 			appArticle: ArticleHome,
-			
+			appSidebar: Sidebar
 		}
 	}
 </script>

@@ -6,6 +6,7 @@ use App\Article;
 use App\Http\Resources\Article as ArticleResource;
 use Illuminate\Http\Request;
 use JWTAuth;
+use Storage;
 
 class ArticleController extends Controller
 {

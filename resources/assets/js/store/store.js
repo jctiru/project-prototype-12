@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
 		article: {},
 		errors: null,
 		tokenPayload: null,
-		token: null
+		token: null,
+		appUrl: 'http://project-prototype-12.test'
 	},
 	getters: {
 		articles(state){
@@ -28,6 +29,9 @@ export const store = new Vuex.Store({
     	token(state){
     		return state.token;
     	},
+    	appUrl(state){
+    		return state.appUrl;
+    	}
 	},
 	mutations: {
 		setArticles(state, articles){
@@ -86,8 +90,10 @@ export const store = new Vuex.Store({
 		tryAutoLogin({commit}){
 	        const token = localStorage.getItem('token');
 	        if(!token){
+	        	// alert('Token absent');
 	        	return;
 	      	}
+	      	// alert('Token present');
 	      	this.commit('setToken', token);
 	      	this.commit('setTokenPayload', token);
 	      	const tokenPayload = this.getters.tokenPayload;

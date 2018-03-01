@@ -20,7 +20,7 @@ export default {
             return this.$store.getters.token;
         }
     },
-	created(){
+	beforeCreate(){
         this.$store.dispatch('tryAutoLogin');
     }
 }

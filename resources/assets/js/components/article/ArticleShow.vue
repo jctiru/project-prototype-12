@@ -1,19 +1,37 @@
 <template>
-	<div class="container">
-		<div class="card mb-3">
-			<h4 class="card-header">{{article.title}}</h4>
-			<div class="card-body">
+	<div class="container mt-3 mb-4">
+		<div class="row">
+			<div class="col-md-6 mx-auto my-3">
 				<img class="w-100" :src="article.cover_image">
-				<p class="card-text" v-html="article.body"></p>
 			</div>
-			<div class="card-footer text-muted">
-				{{article.created_at | date}}
+		</div>
+		<div class="row py-4">
+			<div class="offset-md-1 col-md-6">
+				<h6 class="text-muted mb-0">
+					{{article.created_at | date}}
+				</h6>
+				<h3>{{article.title}}</h3>
+				<div class="pt-3" v-html="article.body"></div>
+			</div>
+			<div class="col-md-3 offset-md-1">
+				<app-sidebar></app-sidebar>
+			</div>
+		</div>
+		<div class="row my-3 pb-5">
+			<div class="offset-md-1 col-md-6">
+				<vue-disqus 
+				shortname="project-prototype-12" 
+				:identifier="article.id"
+				:title="article.title" 
+				:url="url">
+				</vue-disqus>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+	import Sidebar from './../inc/Sidebar.vue';
 	export default {
 		data(){
 			return {
@@ -23,6 +41,10 @@
 		computed: {
 			article() {
 				return this.$store.getters.article;
+			},
+			url(){
+				const fullUrl = this.$store.getters.appUrl + this.$route.fullPath;
+				return fullUrl;  
 			}
 		},
 		methods: {
@@ -39,6 +61,9 @@
 		},
 		created(){
 			this.fetchArticle();
+		},
+		components: {
+			appSidebar: Sidebar
 		}
 	}
 </script>
