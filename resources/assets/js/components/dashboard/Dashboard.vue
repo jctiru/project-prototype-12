@@ -10,6 +10,7 @@
 					</div>
 					<div class="col-md-6">
 						<router-link :to="{ name: 'articleAdd' }" class="btn btn-primary"><i class="fa fa-pencil"></i> Create Post</router-link>
+						<button @click="logOut" class="btn btn-primary">Log-out</button>
 					</div>
 				</div>
 			</div>
@@ -94,6 +95,9 @@
 			},
 			fetchNewArticles(page) {
 				this.$router.push({ path: '/dashboard', query: { page: page }});
+			},
+			logOut(){
+				this.$store.dispatch('logOut');
 			}
 		}		
 	}

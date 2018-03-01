@@ -7,15 +7,27 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
 	state: {
 		articles: {},
-		article: {}
+		article: {},
+		errors: null,
+		tokenPayload: null,
+		token: null
 	},
 	getters: {
-		articles (state){
+		articles(state){
     		return state.articles;
     	},
-    	article (state){
+    	article(state){
     		return state.article;
-    	}
+    	},
+    	errors(state){
+    		return state.errors;
+    	},
+    	tokenPayload(state){
+    		return state.tokenPayload;
+    	},
+    	token(state){
+    		return state.token;
+    	},
 	},
 	mutations: {
 		setArticles(state, articles){
@@ -23,10 +35,74 @@ export const store = new Vuex.Store({
 		},
 		setArticle(state, article){
 			state.article = article;
+		},
+		setErrors(state, errors){
+			state.errors = errors;
+		},
+		setTokenPayload(state, token){
+			const base64Url = token.split('.')[1];
+			const base64 = base64Url.replace('-', '+').replace('_', '/');
+			const tokenPayload = JSON.parse(window.atob(base64));
+			state.tokenPayload = tokenPayload;
+		},
+		setToken(state, token){
+			state.token = token;
 		}
 	},
 	actions: {
-		fetchArticles({commit}, {page, requestingPage}){
+		signIn({commit}, {email, password}){
+			axios.post('/api/user/signin',
+				{email: email, password: password},
+				{headers: {'X-Requested-With': 'XMLHttpRequest'}})
+			.then(response => {
+				commit('setToken', response.data.token);
+				commit('setTokenPayload', response.data.token);
+				commit('setErrors', null);
+				localStorage.setItem('token', response.data.token);
+				router.push('/dashboard');
+			})
+			.catch(error => {
+				if (error.response) {
+			        if(error.response.status == 400){
+			        	this.commit('setErrors', error.response.data.error);
+				        // this.dispatch('printErrorMsg', {error: error.response.data.error});
+			        } else {
+			        	const errors = [error.response.data.error];
+			        	this.commit('setErrors', errors);
+			        }
+			    } else if (error.request) {
+			        console.log(error.request);
+			    } else {
+			        console.log('Error', error.message);
+			    }
+			});
+		},
+		logOut({commit}){
+			localStorage.removeItem('token');
+			this.state.token = null;
+			this.state.tokenPayload = null;
+			router.push('/signin');
+		},
+		tryAutoLogin({commit}){
+	        const token = localStorage.getItem('token');
+	        if(!token){
+	        	return;
+	      	}
+	      	this.commit('setToken', token);
+	      	this.commit('setTokenPayload', token);
+	      	const tokenPayload = this.getters.tokenPayload;
+	      	const expirationDate = tokenPayload.exp;
+	      	const now = Math.floor(Date.now() / 1000);
+	      	if(now >= expirationDate){
+	        	return;
+	      	}
+	    },
+		printErrorMsg({commit}, {error}) {
+	        $.each(error, function(key, value) {
+	            console.log(value);
+	        });
+	    },
+		fetchArticles({commit}, {page}){
 			if (typeof page === 'undefined') {
 				page = 1;
 			}
@@ -54,8 +130,6 @@ export const store = new Vuex.Store({
 			axios.get('/api/articles/' + articleId)
 			.then(response => {
 				const data = response.data;
-				// console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
-				// console.log(data);
 				commit('setArticle', data);
 			})
 			.catch(error => {
@@ -70,16 +144,19 @@ export const store = new Vuex.Store({
 			    }
 			});
 		},
-		updateArticle({commit}, article){
-			const updatedArticle = {
-				id: article.id,
-				title: article.title,
-				body: article.body,
-			};
-			axios.put('/api/articles/' + updatedArticle.id, updatedArticle)
+		updateArticle({commit}, {updatedArticle, articleId}){
+			// for (var pair of updatedArticle.entries()) {
+			//     console.log(pair[0]+ ', ' + pair[1]); 
+			// }
+			// PHP Limitations: multipart/form-data is not visible in php://input if the method is PUT
+			// Use axios.post instead of axios.put but still PUT in API Routes
+			// Add _method PUT for Laravel to treat POST request as PUT request in routes
+			updatedArticle.append('_method', 'PUT');
+			const token = this.getters.token;
+			axios.post('/api/articles/' + articleId + "?token=" + token, updatedArticle)
 			.then(response => {
 				console.log(response.data);
-				this.goBack();
+				this.dispatch('goBack');
 			})
 			.catch(error => {
 				if (error.response) {
@@ -94,7 +171,11 @@ export const store = new Vuex.Store({
 			});
 		},
 		createArticle({commit}, newArticle){
-			axios.post('/api/articles', newArticle)
+			// for (var pair of newArticle.entries()) {
+			//     console.log(pair[0]+ ', ' + pair[1]); 
+			// }
+			const token = this.getters.token;
+			axios.post('/api/articles?token='+token, newArticle)
 			.then(response => {
 				console.log(response.data);
 				router.push('/dashboard');
@@ -112,10 +193,17 @@ export const store = new Vuex.Store({
 			});
 		},
 		deleteArticle({commit}, {id}){
-			// console.log(id);
-			axios.delete('/api/articles/' + id)
+			const token = this.getters.token;
+			axios.delete('/api/articles/' + id + '?token=' + token)
 			.then(response => {
 				console.log(response.data);
+				if(this.state.articles.from == this.state.articles.to){
+					const page = this.state.articles.current_page - 1;
+					router.push({ path: '/dashboard', query: { page: page }});
+				} else {
+					const page = this.state.articles.current_page;
+					this.dispatch('fetchArticles', {page: page});
+				}
 			})
 			.catch(error => {
 				if (error.response) {

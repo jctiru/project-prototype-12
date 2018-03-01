@@ -23,7 +23,7 @@
 			  		<router-link class="nav-item"  to="/about" active-class="active" tag="li">
 			    		<a class="nav-link">About</a>
 			  		</router-link>
-			  		<router-link class="nav-item"  to="/dashboard" active-class="active" tag="li">
+			  		<router-link v-if="token" class="nav-item"  to="/dashboard" active-class="active" tag="li">
 			    		<a class="nav-link">Dashboard</a>
 			  		</router-link>
 				</ul>
@@ -31,3 +31,9 @@
 		</div>
 	</nav>
 </template>
+
+<script>
+	export default {
+		props: ['token']
+	}
+</script>

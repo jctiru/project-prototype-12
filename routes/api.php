@@ -24,15 +24,21 @@ Route::get('articles', 'ArticleController@index');
 Route::get('articles/{article}', 'ArticleController@show');
 
 // Create new article
-Route::post('articles', 'ArticleController@store');
+Route::post('articles', 'ArticleController@store')->middleware('auth.jwt');
 
 // Update article
-Route::put('articles/{article}', 'ArticleController@update');
+Route::put('articles/{article}', 'ArticleController@update')->middleware('auth.jwt');
 
-// Update article
-Route::delete('articles/{article}', 'ArticleController@destroy');
+// Delete article
+Route::delete('articles/{article}', 'ArticleController@destroy')->middleware('auth.jwt');
 
 // Get images
 Route::get('images/cover_images/{image}', function($image){
 	return response()->file(public_path('storage/cover_images/' . $image));
 });
+
+// Register
+// Route::post('/user', 'UserController@signup'); 
+
+// Sign in
+Route::post('/user/signin', 'UserController@signin'); 

@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
-  	<app-header/>
-    <router-view :key="$route.fullPath"></router-view>
-    <app-footer/>
-  </div>
+    <div id="app">
+        <app-header :token="token"/>
+            <router-view :key="$route.fullPath"></router-view>
+        <app-footer/>
+    </div>
 </template>
 
 <script>
@@ -15,5 +15,13 @@ export default {
 		appHeader: Header,
 		appFooter: Footer
 	},
+    computed: {
+        token(){
+            return this.$store.getters.token;
+        }
+    },
+	created(){
+        this.$store.dispatch('tryAutoLogin');
+    }
 }
 </script>

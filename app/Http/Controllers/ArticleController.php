@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Http\Resources\Article as ArticleResource;
 use Illuminate\Http\Request;
+use JWTAuth;
 
 class ArticleController extends Controller
 {
@@ -55,6 +56,7 @@ class ArticleController extends Controller
         return response()->json($article, 201);
         // return response()->json("Received", 201);
         // return response()->json(['article' => $article], 201);
+        // $user = JWTAuth::parseToken()->toUser();
 
     }
 
@@ -99,7 +101,7 @@ class ArticleController extends Controller
         if($request->hasFile('cover_image')){
             $article->cover_image = $fileNameToStore;
         }
-        $article->save();
+        $article->update();
         return response()->json($article, 200);
         // return response()->json(['message' => $request], 200);
         // return response()->json(['article' => $article], 200);

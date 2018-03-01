@@ -14,7 +14,7 @@
 						<tinymce id="body" v-model="article.body"></tinymce>
 					</div>
 					<div class="form-group">
-						<input type="file" name="cover_image" accept="image/*"  class="form-control-file form-control-sm">
+						<input type="file" name="cover_image" accept="image/*" @change="onFileSelected" class="form-control-file form-control-sm">
 					</div>
 					<input type="submit" class="btn btn-primary" value="Submit">
 				</form>
@@ -27,7 +27,7 @@
 	export default {
 		data(){
 			return {
-				
+				selectedFile: null
 			}
 		},
 		computed: {
@@ -35,16 +35,28 @@
 				return this.$store.getters.article;
 			}
 		},
+
 		methods: {
 			fetchArticle(){
 				this.$store.dispatch('fetchArticle', this.$route.params.id);
 			},
 			onSubmit(){
-		        console.log(this.article);
-		        this.$store.dispatch('updateArticle', this.article);
+		        const updatedArticle = new FormData();
+		        if(this.selectedFile){
+					updatedArticle.append('cover_image', this.selectedFile, this.selectedFile.name);
+		        }
+				updatedArticle.append('body', this.article.body);
+				updatedArticle.append('title', this.article.title);
+		        this.$store.dispatch('updateArticle', {updatedArticle: updatedArticle, articleId: this.article.id});
+		  //       for (var pair of updatedArticle.entries()) {
+				//     console.log(pair[0]+ ', ' + pair[1]); 
+				// }
 			},
 			goBack(){
 				this.$store.dispatch('goBack');
+			},
+			onFileSelected(event){
+				this.selectedFile = event.target.files[0];
 			}
 		},
 		created(){
