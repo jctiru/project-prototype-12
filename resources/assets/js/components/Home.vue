@@ -1,8 +1,8 @@
 <template>
-	<div class="container">
+	<div class="container mt-2">
 		<div class="row py-4">
 			<div class="offset-md-1 col-md-6">
-				<div v-for="article in articles.data" :key="article.id" class="col-12 py-2">
+				<div v-for="article in articles.data" :key="article.id" class="col-12 pb-3">
 					<app-article 
 					:article="article"
 					></app-article>
