@@ -25,6 +25,7 @@ Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('vue-disqus', VueDisqus);
 
 axios.defaults.baseURL = 'http://project-prototype-12.test';
+// axios.defaults.baseURL = 'https://project-prototype-12.000webhostapp.com';
 
 Vue.filter('date', date => moment(date).format('MMMM Do, YYYY'));
 Vue.filter('longDate', date => moment(date).format('MMM Do YYYY, h:mm a'));

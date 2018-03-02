@@ -13,6 +13,7 @@ export const store = new Vuex.Store({
 		tokenPayload: null,
 		token: null,
 		appUrl: 'http://project-prototype-12.test'
+		// appUrl: 'https://project-prototype-12.000webhostapp.com'
 	},
 	getters: {
 		articles(state){
@@ -212,7 +213,12 @@ export const store = new Vuex.Store({
 		},
 		deleteArticle({commit}, {id}){
 			const token = this.getters.token;
-			axios.delete('/api/articles/' + id + '?token=' + token)
+			// 000webhost doesn't support PUT and DELETE request must use POST and spoof to Laravel
+			// Add _method DELETE for Laravel to treat POST request as DELETE request in routes
+			// axios.delete('/api/articles/' + id + '?token=' + token)
+			const deleteArticle = new FormData();
+			deleteArticle.append('_method', 'DELETE');
+			axios.post('/api/articles/' + id + '?token=' + token, deleteArticle)
 			.then(response => {
 				console.log(response.data);
 				commit('setAlert', 'Article deleted');

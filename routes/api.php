@@ -34,7 +34,8 @@ Route::delete('articles/{article}', 'ArticleController@destroy')->middleware('au
 
 // Get images
 Route::get('images/cover_images/{image}', function($image){
-	return response()->file(public_path('storage/cover_images/' . $image));
+	// return response()->file(public_path('storage/cover_images/' . $image));
+	return response()->file(storage_path('app/public/cover_images/' . $image));
 });
 
 // Register

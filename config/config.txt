@@ -1,0 +1,11 @@
+//.env
+APP_URL=https://project-prototype-12.000webhostapp.com
+DB_DATABASE=id4926825_capstone3
+DB_USERNAME=id4926825_root	
+DB_PASSWORD=password
+
+//app.js
+axios.defaults.baseURL = 'https://project-prototype-12.000webhostapp.com';
+
+//store.js
+appUrl: 'https://project-prototype-12.000webhostapp.com'
