@@ -21,6 +21,9 @@
 					<div class="form-group">
 						<input type="file" name="cover_image" accept="image/*" @change="onFileSelected" class="form-control-file form-control-sm">
 					</div>
+					<div class="col-md-6 mx-auto py-2">
+						<img id="output" class="w-100">
+					</div>
 					<input type="submit" class="btn btn-primary" value="Submit">
 				</form>	
 			</div>
@@ -63,6 +66,8 @@
 			},
 			onFileSelected(event){
 				this.selectedFile = event.target.files[0];
+				const output = document.getElementById('output');
+		    	output.src = URL.createObjectURL(event.target.files[0]);
 			}
 		},
 		components: {

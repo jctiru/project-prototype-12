@@ -15,9 +15,10 @@
 				          Category
 				        </a>
 				        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-				          <a class="dropdown-item" href="#">Gaming</a>
-				          <a class="dropdown-item" href="#">Programming</a>
-				          <a class="dropdown-item" href="#">Japanese</a>
+							<a class="dropdown-item" href="#">Everyday Life</a>
+				        	<a class="dropdown-item" href="#">Gaming</a>
+				        	<a class="dropdown-item" href="#">Programming</a>
+				        	<a class="dropdown-item" href="#">Japanese</a>
 				        </div>
 			        </li>
 			  		<router-link class="nav-item"  to="/about" active-class="active" tag="li">
