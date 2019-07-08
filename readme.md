@@ -1,4 +1,4 @@
-# project-prototype-12 (WIP)
+# project-prototype-12
 ### Mind the _____
 https://project-prototype-12.000webhostapp.com/
 
